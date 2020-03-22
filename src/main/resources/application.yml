@@ -125,6 +125,11 @@ resttemplate:
 #project.name: user-center
 #ahas.license: 4657cb2cc35f49c99b9fe43d37c22434
 
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    # 必须指定group
+    group: test-group
 ---
 # 连字符
 # profile=x的专用属性，也就是某个环境下的专用属性

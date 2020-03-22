@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 /**
- * RESTful URL支持
+ * RESTful URL支持 todo 未生效, 需要找原因
+ * SentinelWebInterceptor 拦截器未生效
+ *
+ * Sentinel 配置文档 : <link>http://www.imooc.com/article/289345</link>
  *
  * @author LeBron
  **/
