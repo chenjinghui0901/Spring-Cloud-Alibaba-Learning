@@ -3,9 +3,13 @@ package com.lebron.usercenter;
 import com.lebron.usercenter.domain.message.UserAddBonusMsgDTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 /**
  * RocketMQ
@@ -22,11 +26,27 @@ public class RocketMQController {
     @RequestMapping("send")
     public String send(Integer uid, Integer bonus) {
 
-        rocketMQTemplate.convertAndSend("add-bonus",
-                UserAddBonusMsgDTO.builder()
-                        .uid(uid)
-                        .bonus(bonus)
-                        .build());
+        // 版本一
+//        rocketMQTemplate.convertAndSend("add-bonus",
+//                UserAddBonusMsgDTO.builder()
+//                        .uid(uid)
+//                        .bonus(bonus)
+//                        .build());
+
+        // 版本二，分布式事务
+        String transactionId = UUID.randomUUID().toString();
+        rocketMQTemplate.sendMessageInTransaction(
+                "tx-add-bonus-group",
+                "add-bonus",
+                MessageBuilder
+                        .withPayload(UserAddBonusMsgDTO.builder().uid(uid).bonus(bonus).build())
+                        .setHeader(RocketMQHeaders.TRANSACTION_ID, transactionId)
+                        // header 有妙用
+                        .setHeader("uid", uid)
+                        .build(),
+                // 可以作为传递参数
+                bonus);
+
         return "success";
     }
 }
