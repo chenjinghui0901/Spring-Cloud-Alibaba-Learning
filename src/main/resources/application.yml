@@ -36,7 +36,25 @@ spring:
       transport:
         # 指定 sentinel 控制台地址
         dashboard: localhost:8080
-#      #限流规则持久化: 推模式 Nacos （自己实现）文档 : http://www.imooc.com/article/289464
+#    stream:
+#      rocketmq:
+#        binder:
+#          name-server: 127.0.0.1:9876
+#      bindings:
+#        output:
+#          # 用来知道 topic
+#          destination: stream-test-topic
+#        my-output:
+#          destination: stream-my-topic
+#        input:
+#          desination: stream-test-topic
+#          group: binder-group
+#        my-input:
+#          destination: stream-my-topic
+#          # RocketMQ一定要设置, 其他不需要
+#          group: my -group
+
+  #      #限流规则持久化: 推模式 Nacos （自己实现）文档 : http://www.imooc.com/article/289464
 #      datasource:
 #        # 名称随意
 #        flow:
@@ -92,6 +110,7 @@ logging:
   level:
     # 建立在 dubug 级别下的
     com.lebron.usercenter.feignclient.UserCenterFeignClient: debug
+    com.alibaba.nacos: error
 
 feign:
   sentinel:

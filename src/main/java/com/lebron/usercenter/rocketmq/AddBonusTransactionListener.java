@@ -16,6 +16,8 @@ import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
 
 /**
+ * https://github.com/alibaba/spring-cloud-alibaba/wiki/RocketMQ
+ *
  * @author LeBron
  */
 @Service

@@ -1,10 +1,12 @@
 package com.lebron.usercenter;
 
 import com.lebron.usercenter.domain.message.UserAddBonusMsgDTO;
+import com.lebron.usercenter.rocketmq.MySource;
 import lombok.RequiredArgsConstructor;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,4 +51,17 @@ public class RocketMQController {
 
         return "success";
     }
+
+    // stream 流测试
+//    private final MySource mySource;
+//
+//    @RequestMapping("testStream-my-source")
+//    public String testStreamMySource() {
+//        mySource.output().send(
+//                MessageBuilder.withPayload(
+//                        "test-stream 消息体"
+//                ).build()
+//        );
+//        return "success";
+//    }
 }
