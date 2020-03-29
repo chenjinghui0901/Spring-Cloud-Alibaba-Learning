@@ -21,12 +21,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
@@ -47,6 +50,7 @@ public class TestController {
     private final DiscoveryClient discoveryClient;
 
     private final UserCenterFeignClient userCenterFeignClient;
+
 
     @GetMapping("/user-insert")
     public User insert() {
@@ -208,6 +212,23 @@ public class TestController {
     public User get(@PathVariable Integer uid) {
         User user = restTemplate.getForObject("http://user-center/users/rest-template/{uid}", User.class, uid);
         return user;
+    }
+
+
+    /**
+     * RestTemplate 传递 token
+     */
+    @GetMapping("token-relay/{uid}")
+    public ResponseEntity<User> tokenRelay(HttpServletRequest request, @PathVariable Integer uid) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("X-token", request.getHeader("X-token"));
+
+        return restTemplate.exchange(
+                "http://user-center/users/rest-template/{uid}",
+                HttpMethod.GET,
+                new HttpEntity<>(httpHeaders),
+                User.class,
+                uid);
     }
 
      public static void main(String[] args) {

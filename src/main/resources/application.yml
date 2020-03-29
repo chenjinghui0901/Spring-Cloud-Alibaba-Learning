@@ -22,9 +22,9 @@ spring:
       # < com.mysql.jdbc.Driver
       driver-class-name: com.mysql.cj.jdbc.Driver
   cloud:
-    nacos:
-      # 指定 nacos server地址
-      server-addr: localhost:8848
+#    nacos:
+#      # 指定 nacos server地址
+#      server-addr: localhost:8848
     sentinel:
       # 开启饥饿加载
       eager: true
@@ -123,6 +123,9 @@ feign:
       # 全局的日志级别
       default:
         loggerLevel: full
+        requestInterceptors:
+          - com.lebron.usercenter.feignclient.interceptor.TokenRelayRequestInterceptor
+
   httpclient:
     # 让 Feign 使用 apache httpclient 做请求，而不是默认的 urlConnection
     enabled: true
@@ -173,6 +176,10 @@ spring:
 server:
   port: 8081
 
+jwt:
+  secret: lebron
+  # 有效期，单位秒，默认2周
+  expire-time-in-second: 1209600
 
 ---
 # profile=y的专用属性，也就是某个环境下的专用属性

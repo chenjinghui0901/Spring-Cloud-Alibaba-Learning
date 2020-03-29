@@ -2,6 +2,7 @@ package com.lebron.usercenter;
 
 import com.alibaba.cloud.sentinel.annotation.SentinelRestTemplate;
 import com.lebron.usercenter.configuration.GlobalFeignConfiguration;
+import com.lebron.usercenter.restTemplate.TokenRelayInterceptor;
 import com.lebron.usercenter.rocketmq.MySink;
 import com.lebron.usercenter.rocketmq.MySource;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,8 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.client.RestTemplate;
 import tk.mybatis.spring.annotation.MapperScan;
+
+import java.util.Collections;
 
 /**
  * 文档
@@ -56,7 +59,12 @@ public class UserCenterApplication {
     @LoadBalanced
     @SentinelRestTemplate
     public RestTemplate restTemplate() {
-        return new RestTemplate();
+        RestTemplate restTemplate = new RestTemplate();
+        // 添加拦截器
+        restTemplate.setInterceptors(
+                Collections.singletonList(new TokenRelayInterceptor())
+        );
+        return restTemplate;
     }
 
 

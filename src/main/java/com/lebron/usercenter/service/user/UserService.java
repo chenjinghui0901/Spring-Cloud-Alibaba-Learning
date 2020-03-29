@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 /**
  * @author LeBron
  */
@@ -39,5 +41,22 @@ public class UserService {
         rocketmqTransactionLogMapper.insert(
                 RocketmqTransactionLog.builder().transactionId(transactionId).log("添加积分").build()
         );
+    }
+
+
+    public User login(String nickname, String avaterUrl, String openId) {
+        User user = userMapper.selectOne(User.builder().wxId(openId).build());
+        if (user == null) {
+            user = User.builder()
+                    .avatarUrl(avaterUrl)
+                    .wxNickname(nickname)
+                    .wxId(openId)
+                    .bonus(300)
+                    .createTime(new Date())
+                    .updateTime(new Date())
+                    .roles("user").build();
+            userMapper.insertSelective(user);
+        }
+        return user;
     }
 }
