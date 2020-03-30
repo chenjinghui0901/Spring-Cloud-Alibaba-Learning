@@ -120,6 +120,7 @@ logging:
     com.lebron.usercenter.feignclient.UserCenterFeignClient: debug
     com.alibaba.nacos: error
     org.springframework.cloud.sleuth: debug
+    com.lebron.usercenter.dao.user.UserMapper: debug
 
 feign:
   sentinel:
@@ -161,6 +162,9 @@ rocketmq:
   producer:
     # 必须指定group
     group: test-group
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
 ---
 # 连字符
 # profile=x的专用属性，也就是某个环境下的专用属性
