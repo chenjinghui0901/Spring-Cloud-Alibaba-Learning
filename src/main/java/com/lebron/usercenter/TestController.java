@@ -15,6 +15,7 @@ import com.lebron.usercenter.feignclient.BaiduFeignClient;
 import com.lebron.usercenter.feignclient.UserCenterFeignClient;
 import com.lebron.usercenter.sentinel.TestControllerBlockHandlerClass;
 import com.lebron.usercenter.sentinel.TestControllerFallbackClass;
+import jdk.nashorn.internal.ir.annotations.Reference;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -41,6 +42,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
+@Reference
 public class TestController {
 
     private final UserMapper userMapper;
